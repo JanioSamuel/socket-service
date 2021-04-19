@@ -1,13 +1,11 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-require('dotenv-safe').config();
 const socketIO = require("socket.io");
 const queueActions = require('./util/QueueActions');
 
 app.use(express.json());
 app.use(cors());
-
 
 const clients = [];
 
@@ -23,8 +21,7 @@ io.on('connect', function (socket) {
 
   socket.on('send', function (msg) {
     if (msg && msg.includes('/stock=')) {
-      const regex = msg.match(/(^\/stock=.\S+)/i)
-      const stockName = regex[0].replace('/stock=', '');
+      const stockName = msg.match(/(^\/stock=(.\S+))/i)[2];
 
       queueActions.sendToQueue('stock.service', { stock: stockName });
     } else {

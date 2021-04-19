@@ -1,5 +1,7 @@
+require('dotenv-safe').config();
+
 function connect() {
-  return require('amqplib').connect("amqp://root:root@localhost:5672").then(conn => conn.createChannel());
+  return require('amqplib').connect(process.env.AMQP_URL).then(conn => conn.createChannel());
 }
 
 function createQueue(channel, queue) {
