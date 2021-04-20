@@ -29,8 +29,8 @@ io.on('connect', function (socket) {
     }
   });
 
-  socket.on('disconnect', function () {
-    io.emit('update', `${clients[socket.id]} has left the server.`);
+  socket.on('leave', function () {
+    io.emit('chat', `${clients[socket.id]} has left the server.`);
     delete clients[socket.id];
   });
 
